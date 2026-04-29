@@ -2,7 +2,7 @@
 
 > 中文: [README.md](README.md)
 
-A modern UI component library inspired by Apple design language, featuring four theme modes (Light, Dark, Liquid Glass, Frosted Glass) with multiple modern UI styles.
+A modern UI component library featuring four theme modes (Light, Dark, Liquid Glass, Frosted Glass) with multiple modern UI styles.
 
 ## ✨ Features
 
@@ -636,4 +636,4 @@ For questions or suggestions, please contact us through GitHub Issues.
 
 ---
 
-**Made with ❤️ using Apple Design Language**
+**Made with ❤️ by AppleUI Team**
