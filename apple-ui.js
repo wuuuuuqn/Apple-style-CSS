@@ -31,8 +31,15 @@ const AppleUI = {
     set(mode) {
       if (!this.modes.includes(mode)) mode = 'light';
       this.current = mode;
-      document.documentElement.setAttribute('data-theme', mode);
+
+      // Smooth theme transition
+      const html = document.documentElement;
+      html.classList.add('theme-transition');
+      html.setAttribute('data-theme', mode);
       localStorage.setItem('au-theme', mode);
+
+      setTimeout(() => html.classList.remove('theme-transition'), 500);
+
       this.updateToggles();
       this.updateBodyClass();
     },
@@ -70,31 +77,69 @@ const AppleUI = {
 
   // Modal
   modal: {
+    _activeModal: null,
+    _previousFocus: null,
+
     open(id) {
       const modal = document.getElementById(id);
       if (!modal) return;
 
+      this._previousFocus = document.activeElement;
+      this._activeModal = modal;
       modal.classList.add('au-modal-overlay-active');
       document.body.style.overflow = 'hidden';
 
       // Focus first focusable element
       const focusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
       if (focusable) focusable.focus();
+
+      // Focus trap
+      modal.addEventListener('keydown', this._handleTabKey);
     },
 
     close(id) {
-      const modal = document.getElementById(id);
+      const modal = id ? document.getElementById(id) : this._activeModal;
       if (!modal) return;
 
       modal.classList.remove('au-modal-overlay-active');
       document.body.style.overflow = '';
+      modal.removeEventListener('keydown', this._handleTabKey);
+
+      if (this._previousFocus) {
+        this._previousFocus.focus();
+        this._previousFocus = null;
+      }
+      this._activeModal = null;
     },
 
     closeAll() {
       document.querySelectorAll('.au-modal-overlay-active').forEach(modal => {
         modal.classList.remove('au-modal-overlay-active');
+        modal.removeEventListener('keydown', this._handleTabKey);
       });
       document.body.style.overflow = '';
+      if (this._previousFocus) {
+        this._previousFocus.focus();
+        this._previousFocus = null;
+      }
+      this._activeModal = null;
+    },
+
+    _handleTabKey(e) {
+      if (e.key !== 'Tab') return;
+      const modal = AppleUI.modal._activeModal;
+      if (!modal) return;
+      const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
   },
 
@@ -124,12 +169,12 @@ const AppleUI = {
       const toast = document.createElement('div');
       toast.className = `au-toast au-toast-${type}`;
       toast.innerHTML = `
-        <span style="font-size: 20px;">${icon}</span>
-        <div style="flex: 1;">
-          ${title ? `<div style="font-weight: 600; margin-bottom: 2px;">${title}</div>` : ''}
-          ${message ? `<div style="font-size: 13px; opacity: 0.8;">${message}</div>` : ''}
+        <span class="au-toast-icon">${icon}</span>
+        <div class="au-toast-content">
+          ${title ? `<div class="au-toast-title">${title}</div>` : ''}
+          ${message ? `<div class="au-toast-message">${message}</div>` : ''}
         </div>
-        <button onclick="this.parentElement.remove()" style="background: none; border: none; cursor: pointer; font-size: 18px; opacity: 0.5;">×</button>
+        <button class="au-toast-close" onclick="this.parentElement.remove()" aria-label="Close">×</button>
       `;
 
       this.container.appendChild(toast);
@@ -371,6 +416,29 @@ const AppleUI = {
         setTimeout(() => inThrottle = false, limit);
       }
     };
+  },
+
+  // Scroll Reveal Animation
+  reveal(options = {}) {
+    const {
+      selector = '.au-reveal',
+      threshold = 0.1,
+      rootMargin = '0px 0px -40px 0px'
+    } = options;
+
+    const elements = document.querySelectorAll(selector);
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('au-revealed');
+        }
+      });
+    }, { threshold, rootMargin });
+
+    elements.forEach(el => observer.observe(el));
+    return observer;
   },
 
   // Utility: Copy to clipboard

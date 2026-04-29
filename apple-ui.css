@@ -1228,6 +1228,27 @@ body {
 .au-toast-warning { border-left: 4px solid var(--au-warning); }
 .au-toast-info { border-left: 4px solid var(--au-info); }
 
+.au-toast-icon { font-size: 20px; }
+.au-toast-content { flex: 1; }
+.au-toast-title { font-weight: 600; margin-bottom: 2px; }
+.au-toast-message { font-size: 13px; opacity: 0.8; }
+.au-toast-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  opacity: 0.5;
+  color: inherit;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--au-transition-fast);
+}
+.au-toast-close:hover { opacity: 1; }
+
 /* Tooltip */
 .au-tooltip {
   position: relative;
@@ -1954,6 +1975,10 @@ body {
   align-items: center;
   justify-content: center;
   gap: 3px;
+  width: auto;
+  height: auto;
+  background: none;
+  animation: none;
 }
 
 .au-icon-dots::before,
@@ -2027,3 +2052,184 @@ body {
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3Ccircle cx='12' cy='5' r='2'/%3E%3Ccircle cx='12' cy='19' r='2'/%3E%3C/svg%3E");
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3Ccircle cx='12' cy='5' r='2'/%3E%3Ccircle cx='12' cy='19' r='2'/%3E%3C/svg%3E");
 }
+
+/* ============================================================
+   12. Theme Transition Enhancement
+   ============================================================ */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ============================================================
+   13. Landing Page Helpers
+   ============================================================ */
+.au-gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.au-hero-title {
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.au-hero-subtitle {
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--au-text-secondary);
+  max-width: 560px;
+}
+
+.au-section-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.au-section-desc {
+  font-size: 17px;
+  color: var(--au-text-secondary);
+  line-height: 1.6;
+  max-width: 560px;
+}
+
+.au-card-glass-highlight {
+  background: var(--au-glass-bg);
+  background-image: var(--au-glass-shine);
+  backdrop-filter: var(--au-glass-blur);
+  -webkit-backdrop-filter: var(--au-glass-blur);
+  border: 1px solid var(--au-glass-border);
+  box-shadow: var(--au-shadow-md), inset 0 1px 0 rgba(255,255,255,0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.au-card-glass-highlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ============================================================
+   14. Scroll Reveal Animations
+   ============================================================ */
+.au-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+              transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.au-reveal.au-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.au-reveal-delay-1 { transition-delay: 0.1s; }
+.au-reveal-delay-2 { transition-delay: 0.2s; }
+.au-reveal-delay-3 { transition-delay: 0.3s; }
+.au-reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ============================================================
+   15. Code Block Enhancement
+   ============================================================ */
+.au-code {
+  background: var(--au-bg-tertiary);
+  border-radius: var(--au-radius-lg);
+  padding: 24px;
+  font-family: var(--au-font-mono);
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-x: auto;
+  color: var(--au-text-secondary);
+  border: 1px solid var(--au-border);
+}
+
+.au-code .token-comment { color: var(--au-text-tertiary); }
+.au-code .token-keyword { color: var(--au-primary); }
+.au-code .token-string { color: var(--au-success); }
+.au-code .token-tag { color: var(--au-danger); }
+.au-code .token-attr { color: var(--au-warning); }
+
+/* ============================================================
+   16. Mobile Navbar
+   ============================================================ */
+.au-navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--au-text);
+}
+
+@media (max-width: 768px) {
+  .au-navbar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .au-navbar-menu {
+    position: fixed;
+    top: 52px;
+    left: 0;
+    right: 0;
+    background: var(--au-bg-secondary);
+    backdrop-filter: var(--au-glass-blur);
+    -webkit-backdrop-filter: var(--au-glass-blur);
+    border-bottom: 1px solid var(--au-border);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 24px;
+    gap: 0;
+    margin-left: 0;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: var(--au-z-fixed);
+  }
+
+  .au-navbar-menu.au-navbar-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .au-navbar-menu li {
+    border-bottom: 1px solid var(--au-border);
+  }
+
+  .au-navbar-menu li:last-child {
+    border-bottom: none;
+  }
+
+  .au-navbar-link {
+    display: block;
+    padding: 12px 0;
+    font-size: 17px;
+  }
+}
+
