@@ -18,9 +18,46 @@ A modern UI component library inspired by Apple design language, featuring four 
 
 ### Using CDN (Recommended)
 
+Use CDN via GitHub Pages:
+
 ```html
-<link rel="stylesheet" href="apple-ui.css">
-<script src="apple-ui.js"></script>
+<link rel="stylesheet" href="https://wuuuuuqn.github.io/Apple-style-CSS/apple-ui.css">
+<script src="https://wuuuuuqn.github.io/Apple-style-CSS/apple-ui.js"></script>
+```
+
+**Steps:**
+
+1. Include CSS in the `<head>` of your HTML file
+2. Include JavaScript before the closing `</body>` tag
+3. Call `AppleUI.init()` to initialize
+
+**Full Example:**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AppleUI CDN Example</title>
+  <!-- Include AppleUI CSS -->
+  <link rel="stylesheet" href="https://wuuuuuqn.github.io/Apple-style-CSS/apple-ui.css">
+</head>
+<body>
+  <div class="au-container">
+    <h1>AppleUI via CDN</h1>
+    <button class="au-btn">Primary Button</button>
+    <button class="au-btn au-btn-secondary">Secondary Button</button>
+  </div>
+  
+  <!-- Include AppleUI JavaScript -->
+  <script src="https://wuuuuuqn.github.io/Apple-style-CSS/apple-ui.js"></script>
+  <script>
+    // Initialize AppleUI
+    AppleUI.init();
+  </script>
+</body>
+</html>
 ```
 
 ### Local Files

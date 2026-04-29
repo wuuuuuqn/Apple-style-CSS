@@ -18,9 +18,46 @@
 
 ### 直接使用 CDN（推荐）
 
+通过 GitHub Pages 使用 CDN：
+
 ```html
-<link rel="stylesheet" href="apple-ui.css">
-<script src="apple-ui.js"></script>
+<link rel="stylesheet" href="https://wuuuuuqn.github.io/Apple-style-CSS/apple-ui.css">
+<script src="https://wuuuuuqn.github.io/Apple-style-CSS/apple-ui.js"></script>
+```
+
+**使用步骤：**
+
+1. 在 HTML 文件的 `<head>` 中引入 CSS
+2. 在 `</body>` 标签前引入 JavaScript
+3. 在脚本中调用 `AppleUI.init()` 初始化
+
+**完整示例：**
+
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AppleUI CDN 示例</title>
+  <!-- 引入 AppleUI CSS -->
+  <link rel="stylesheet" href="https://wuuuuuqn.github.io/Apple-style-CSS/apple-ui.css">
+</head>
+<body>
+  <div class="au-container">
+    <h1>使用 CDN 引入 AppleUI</h1>
+    <button class="au-btn">Primary Button</button>
+    <button class="au-btn au-btn-secondary">Secondary Button</button>
+  </div>
+  
+  <!-- 引入 AppleUI JavaScript -->
+  <script src="https://wuuuuuqn.github.io/Apple-style-CSS/apple-ui.js"></script>
+  <script>
+    // 初始化 AppleUI
+    AppleUI.init();
+  </script>
+</body>
+</html>
 ```
 
 ### 本地文件
