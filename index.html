@@ -786,6 +786,7 @@
         <li><a href="#overlay" data-i18n="sidebar.overlay">Overlay</a></li>
         <li><a href="#icons" data-i18n="sidebar.icons">Icons</a></li>
         <li><a href="#animations" data-i18n="sidebar.animations">Animations</a></li>
+        <li><a href="#liquid-glass" data-i18n="sidebar.liquidGlass">Liquid Glass</a></li>
       </ul>
     </aside>
 
@@ -1296,6 +1297,93 @@ AppleUI.toast.warning(<span class="token-string">'Message'</span>);
           </div>
         </div>
       </section>
+
+      <!-- Liquid Glass -->
+      <section class="demo-section" id="liquid-glass">
+        <h2 data-i18n="liquidglass.title">Liquid Glass</h2>
+        <p data-i18n="liquidglass.desc">鼠标跟随高光边框、动态折射与弹性交互的高级玻璃效果。</p>
+
+        <div class="demo-block">
+          <div class="demo-block-header" data-i18n="liquidglass.basic">Basic Effect</div>
+          <div class="demo-block-body">
+            <div class="au-liquid-glass-demo-bg">
+              <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:center;">
+                <div class="au-liquid-glass au-liquid-glass-sm" style="color:#fff;">
+                  <span>Small</span>
+                </div>
+                <div class="au-liquid-glass au-liquid-glass-md" style="color:#fff;">
+                  <span>Medium</span>
+                </div>
+                <div class="au-liquid-glass au-liquid-glass-lg" style="color:#fff;">
+                  <span>Large</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="demo-block-code">
+<span class="token-keyword">&lt;div</span> <span class="token-attr">class</span>=<span class="token-string">"au-liquid-glass au-liquid-glass-md"</span><span class="token-keyword">&gt;</span><br>
+&nbsp;&nbsp;<span class="token-keyword">&lt;span&gt;</span>Content<span class="token-keyword">&lt;/span&gt;</span><br>
+<span class="token-keyword">&lt;/div&gt;</span>
+          </div>
+        </div>
+
+        <div class="demo-block">
+          <div class="demo-block-header" data-i18n="liquidglass.interactive">Interactive</div>
+          <div class="demo-block-body">
+            <div class="au-liquid-glass-demo-bg">
+              <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:center;">
+                <div class="au-liquid-glass au-liquid-glass-md au-liquid-glass-interactive" style="color:#fff;">
+                  <span>Hover Me</span>
+                </div>
+                <div class="au-liquid-glass au-liquid-glass-md au-liquid-glass-interactive" style="color:#fff;">
+                  <span>Click Me</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="demo-block-code">
+<span class="token-keyword">&lt;div</span> <span class="token-attr">class</span>=<span class="token-string">"au-liquid-glass au-liquid-glass-interactive"</span><span class="token-keyword">&gt;</span><br>
+&nbsp;&nbsp;<span class="token-keyword">&lt;span&gt;</span>Interactive<span class="token-keyword">&lt;/span&gt;</span><br>
+<span class="token-keyword">&lt;/div&gt;</span>
+          </div>
+        </div>
+
+        <div class="demo-block">
+          <div class="demo-block-header" data-i18n="liquidglass.card">Card Effect</div>
+          <div class="demo-block-body">
+            <div class="au-liquid-glass-demo-bg">
+              <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:stretch;justify-content:center;">
+                <div class="au-liquid-glass au-liquid-glass-card" style="padding:28px;color:#fff;">
+                  <h4 style="font-size:18px;font-weight:600;margin-bottom:10px;position:relative;z-index:2;">Glass Card</h4>
+                  <p style="font-size:14px;opacity:0.85;line-height:1.5;position:relative;z-index:2;">Advanced glass morphism with mouse-reactive highlight borders.</p>
+                </div>
+                <div class="au-liquid-glass au-liquid-glass-card au-liquid-glass-over-light" style="padding:28px;color:#fff;">
+                  <h4 style="font-size:18px;font-weight:600;margin-bottom:10px;position:relative;z-index:2;">Over Light</h4>
+                  <p style="font-size:14px;opacity:0.85;line-height:1.5;position:relative;z-index:2;">Enhanced contrast variant for light backgrounds.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="demo-block-code">
+<span class="token-keyword">&lt;div</span> <span class="token-attr">class</span>=<span class="token-string">"au-liquid-glass au-liquid-glass-card"</span><span class="token-keyword">&gt;</span><br>
+&nbsp;&nbsp;<span class="token-keyword">&lt;h4&gt;</span>Title<span class="token-keyword">&lt;/h4&gt;</span><br>
+&nbsp;&nbsp;<span class="token-keyword">&lt;p&gt;</span>Content...<span class="token-keyword">&lt;/p&gt;</span><br>
+<span class="token-keyword">&lt;/div&gt;</span>
+          </div>
+        </div>
+
+        <div class="demo-block">
+          <div class="demo-block-header" data-i18n="liquidglass.button">Button Effect</div>
+          <div class="demo-block-body au-flex au-flex-wrap au-gap-3 au-items-center">
+            <button class="au-liquid-glass au-liquid-glass-sm au-liquid-glass-interactive" style="color:#fff;">Action</button>
+            <button class="au-liquid-glass au-liquid-glass-md au-liquid-glass-interactive" style="color:#fff;">Confirm</button>
+            <button class="au-liquid-glass au-liquid-glass-lg au-liquid-glass-interactive" style="color:#fff;">Get Started</button>
+          </div>
+          <div class="demo-block-code">
+<span class="token-keyword">&lt;button</span> <span class="token-attr">class</span>=<span class="token-string">"au-liquid-glass au-liquid-glass-interactive"</span><span class="token-keyword">&gt;</span>Action<span class="token-keyword">&lt;/button&gt;</span>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -1384,7 +1472,14 @@ AppleUI.toast.warning(<span class="token-string">'Message'</span>);
         'sidebar.data': '数据展示',
         'sidebar.overlay': '浮层',
         'sidebar.icons': '图标',
-        'sidebar.animations': '动画'
+        'sidebar.animations': '动画',
+        'sidebar.liquidGlass': '液态玻璃',
+        'liquidglass.title': '液态玻璃',
+        'liquidglass.desc': '鼠标跟随高光边框、动态折射与弹性交互的高级玻璃效果。',
+        'liquidglass.basic': '基础效果',
+        'liquidglass.interactive': '交互效果',
+        'liquidglass.card': '卡片效果',
+        'liquidglass.button': '按钮效果'
       },
       en: {
         'nav.demo': 'Components',
@@ -1441,7 +1536,14 @@ AppleUI.toast.warning(<span class="token-string">'Message'</span>);
         'sidebar.data': 'Data Display',
         'sidebar.overlay': 'Overlay',
         'sidebar.icons': 'Icons',
-        'sidebar.animations': 'Animations'
+        'sidebar.animations': 'Animations',
+        'sidebar.liquidGlass': 'Liquid Glass',
+        'liquidglass.title': 'Liquid Glass',
+        'liquidglass.desc': 'Advanced glass effect with mouse-reactive highlight borders, dynamic refraction, and elastic interactions.',
+        'liquidglass.basic': 'Basic Effect',
+        'liquidglass.interactive': 'Interactive',
+        'liquidglass.card': 'Card Effect',
+        'liquidglass.button': 'Button Effect'
       }
     };
 

@@ -2233,3 +2233,197 @@ html.theme-transition *::after {
   }
 }
 
+/* ============================================
+   Liquid Glass - Advanced Glass Effect
+   ============================================ */
+
+.au-liquid-glass {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--au-radius-xl);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.25s ease;
+  cursor: default;
+  border: none;
+  color: var(--au-text);
+}
+
+/* Dynamic highlight border - angle controlled by JS via --lg-angle */
+.au-liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(
+    var(--lg-angle, 135deg),
+    rgba(255, 255, 255, 0.0) 0%,
+    rgba(255, 255, 255, 0.25) 35%,
+    rgba(255, 255, 255, 0.55) 65%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+/* Top sheen highlight */
+.au-liquid-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.05) 30%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  pointer-events: none;
+}
+
+/* Content layer - stays sharp above filter */
+.au-liquid-glass > .au-liquid-glass-content,
+.au-liquid-glass > *:not(.au-liquid-glass-backdrop):not(.au-liquid-glass-border) {
+  position: relative;
+  z-index: 2;
+}
+
+/* Backdrop layer that gets the wiggly displacement effect */
+.au-liquid-glass-backdrop {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  filter: var(--lg-filter, none);
+  background: inherit;
+  pointer-events: none;
+}
+
+/* Interactive states */
+.au-liquid-glass.au-liquid-glass-interactive {
+  cursor: pointer;
+}
+
+.au-liquid-glass.au-liquid-glass-interactive:hover {
+  transform: scale(1.03);
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.au-liquid-glass.au-liquid-glass-interactive:hover::before {
+  opacity: 0.7;
+}
+
+.au-liquid-glass.au-liquid-glass-interactive:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* SVG filter target - applied to backdrop layer */
+.au-liquid-glass[data-lg-filter] .au-liquid-glass-backdrop {
+  filter: var(--lg-filter);
+}
+
+/* Size variants */
+.au-liquid-glass-sm {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: var(--au-radius-lg);
+}
+
+.au-liquid-glass-md {
+  padding: 16px 28px;
+  font-size: 16px;
+}
+
+.au-liquid-glass-lg {
+  padding: 24px 40px;
+  font-size: 20px;
+  border-radius: var(--au-radius-2xl);
+}
+
+/* Card variant */
+.au-liquid-glass-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+  width: 100%;
+  max-width: 360px;
+}
+
+/* Over light background variant */
+.au-liquid-glass-over-light {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.au-liquid-glass-over-light::before {
+  opacity: 0.35;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .au-liquid-glass,
+[data-theme="frosted-glass"] .au-liquid-glass {
+  background: rgba(30, 30, 35, 0.35);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .au-liquid-glass::before,
+[data-theme="frosted-glass"] .au-liquid-glass::before {
+  background: linear-gradient(
+    var(--lg-angle, 135deg),
+    rgba(255, 255, 255, 0.0) 0%,
+    rgba(255, 255, 255, 0.15) 35%,
+    rgba(255, 255, 255, 0.35) 65%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+}
+
+[data-theme="dark"] .au-liquid-glass-over-light,
+[data-theme="frosted-glass"] .au-liquid-glass-over-light {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Liquid glass theme specific - more vibrant */
+[data-theme="liquid-glass"] .au-liquid-glass {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+}
+
+/* Demo container for liquid glass */
+.au-liquid-glass-demo-bg {
+  position: relative;
+  padding: 48px;
+  border-radius: var(--au-radius-xl);
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+}
+
+.au-liquid-glass-demo-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+

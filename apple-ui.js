@@ -453,6 +453,178 @@ const AppleUI = {
     }
   },
 
+  // Liquid Glass - Advanced glass effect with mouse-reactive highlights
+  liquidGlass: {
+    _instances: new Map(),
+
+    init() {
+      document.querySelectorAll('.au-liquid-glass').forEach(el => {
+        this._initElement(el);
+      });
+    },
+
+    _initElement(el) {
+      if (this._instances.has(el)) return;
+
+      const instance = {
+        el,
+        mouseX: 0,
+        mouseY: 0,
+        isHovering: false,
+        rafId: null,
+      };
+
+      // Inject SVG filter for displacement (optional enhancement)
+      this._injectFilter(el);
+
+      // Mouse tracking
+      const handleMove = (e) => {
+        const rect = el.getBoundingClientRect();
+        instance.mouseX = e.clientX - rect.left;
+        instance.mouseY = e.clientY - rect.top;
+        instance.isHovering = true;
+        this._updateHighlight(el, instance);
+      };
+
+      const handleLeave = () => {
+        instance.isHovering = false;
+        // Reset to default angle
+        el.style.setProperty('--lg-angle', '135deg');
+      };
+
+      const handleEnter = () => {
+        instance.isHovering = true;
+      };
+
+      el.addEventListener('mousemove', handleMove);
+      el.addEventListener('mouseleave', handleLeave);
+      el.addEventListener('mouseenter', handleEnter);
+
+      // Touch support
+      el.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+          const touch = e.touches[0];
+          const rect = el.getBoundingClientRect();
+          instance.mouseX = touch.clientX - rect.left;
+          instance.mouseY = touch.clientY - rect.top;
+          this._updateHighlight(el, instance);
+        }
+      }, { passive: true });
+
+      this._instances.set(el, instance);
+
+      // Set default angle
+      el.style.setProperty('--lg-angle', '135deg');
+    },
+
+    _updateHighlight(el, instance) {
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      // Calculate angle from element center to mouse
+      const dx = instance.mouseX - centerX;
+      const dy = instance.mouseY - centerY;
+      const angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+
+      // Smooth the angle update
+      el.style.setProperty('--lg-angle', `${angle}deg`);
+    },
+
+    _injectFilter(el) {
+      // Only inject if not already present and element requests it
+      if (!el.dataset.lgDisplacement) return;
+
+      const filterId = 'au-lg-filter-' + Math.random().toString(36).substr(2, 9);
+
+      // Create SVG filter
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('style', 'position:absolute;width:0;height:0;');
+      svg.setAttribute('aria-hidden', 'true');
+
+      const defs = document.createElementNS(svgNS, 'defs');
+      const filter = document.createElementNS(svgNS, 'filter');
+      filter.setAttribute('id', filterId);
+      filter.setAttribute('x', '-20%');
+      filter.setAttribute('y', '-20%');
+      filter.setAttribute('width', '140%');
+      filter.setAttribute('height', '140%');
+
+      // Displacement map
+      const displacementMap = document.createElementNS(svgNS, 'feDisplacementMap');
+      displacementMap.setAttribute('in', 'SourceGraphic');
+      displacementMap.setAttribute('in2', 'SourceGraphic');
+      displacementMap.setAttribute('scale', '8');
+      displacementMap.setAttribute('xChannelSelector', 'R');
+      displacementMap.setAttribute('yChannelSelector', 'G');
+
+      // Blur
+      const blur = document.createElementNS(svgNS, 'feGaussianBlur');
+      blur.setAttribute('stdDeviation', '0.5');
+
+      filter.appendChild(displacementMap);
+      filter.appendChild(blur);
+      defs.appendChild(filter);
+      svg.appendChild(defs);
+      document.body.appendChild(svg);
+
+      // Apply filter to element
+      el.style.setProperty('--lg-filter', `url(#${filterId})`);
+      el.setAttribute('data-lg-filter', filterId);
+    },
+
+    // Generate a displacement map canvas (for advanced usage)
+    generateDisplacementMap(width, height, cornerRadius = 0.3) {
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+
+      // Fill with neutral gray (no displacement)
+      ctx.fillStyle = '#808080';
+      ctx.fillRect(0, 0, width, height);
+
+      // Create radial displacement from edges
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const data = imageData.data;
+
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const nx = (x / width) - 0.5;
+          const ny = (y / height) - 0.5;
+
+          // Distance from center (elliptical)
+          const dist = Math.sqrt(nx * nx * 4 + ny * ny * 4);
+          const edgeFactor = Math.max(0, dist - 0.3) / 0.7;
+
+          // Displacement intensity at edges
+          const intensity = edgeFactor * edgeFactor * 40;
+
+          const angle = Math.atan2(ny, nx);
+          const dx = Math.cos(angle) * intensity;
+          const dy = Math.sin(angle) * intensity;
+
+          const i = (y * width + x) * 4;
+          data[i] = 128 + dx;     // R: X displacement
+          data[i + 1] = 128 + dy; // G: Y displacement
+          data[i + 2] = 128;      // B
+          data[i + 3] = 255;      // A
+        }
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+      return canvas.toDataURL();
+    },
+
+    destroy() {
+      this._instances.forEach((instance, el) => {
+        // Cleanup would go here if needed
+      });
+      this._instances.clear();
+    }
+  },
+
   // Initialize all components
   init() {
     this.theme.init();
@@ -460,6 +632,7 @@ const AppleUI = {
     this.tabs.init();
     this.accordion.init();
     this.validate.init();
+    this.liquidGlass.init();
 
     // Global event listeners
     document.querySelectorAll('[data-modal-open]').forEach(btn => {
